@@ -1,42 +1,114 @@
 body {
   font-family: Arial, sans-serif;
-  padding: 30px;
-  background: #e1e0e0;
+  margin: 0;
+  padding: 20px 40px;
+  background: #f4f7fa;
+  color: #333;
 }
 
-h1, h2 {
-  color: #3a3737;
+header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+h1 {
+  color: #1e3a8a;
+  margin-bottom: 8px;
+}
+
+.subtitle {
+  color: #64748b;
+  font-size: 1.1rem;
+}
+
+.ticket-form-section, .tickets-section {
+  max-width: 900px;
+  margin: 0 auto 40px;
+  background: white;
+  padding: 24px;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+h2 {
+  color: #1e40af;
+  margin-top: 0;
 }
 
 form {
-  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
 }
 
-input {
-  padding: 8px;
-  margin-right: 10px;
+input, textarea, select {
+  padding: 10px 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  font-size: 1rem;
+}
+
+textarea {
+  resize: vertical;
 }
 
 button {
-  padding: 8px 15px;
-  background: #0d74e2;
+  padding: 12px;
+  background: #2563eb;
   color: white;
   border: none;
+  border-radius: 6px;
+  font-weight: bold;
   cursor: pointer;
+  transition: background 0.2s;
 }
 
 button:hover {
-  background: #0056b3;
+  background: #1d4ed8;
 }
 
 ul {
   list-style: none;
   padding: 0;
+  margin: 20px 0 0;
 }
 
 li {
-  background: white;
-  margin-bottom: 5px;
-  padding: 10px;
-  border-radius: 5px;
+  background: #f8fafc;
+  margin-bottom: 12px;
+  padding: 16px;
+  border-radius: 8px;
+  border-left: 4px solid #94a3b8;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+li.priority-high   { border-left-color: #ef4444; }
+li.priority-urgent { border-left-color: #b91c1c; background: #fef2f2; }
+li.priority-medium { border-left-color: #f59e0b; }
+li.priority-low    { border-left-color: #10b981; }
+
+.status {
+  font-weight: bold;
+  font-size: 0.9rem;
+  padding: 4px 10px;
+  border-radius: 12px;
+  align-self: flex-start;
+}
+
+.status-open       { background: #dbeafe; color: #1e40af; }
+.status-progress   { background: #fef3c7; color: #92400e; }
+.status-resolved   { background: #d1fae5; color: #065f46; }
+
+.ticket-meta {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.9rem;
+  color: #64748b;
+}
+
+#ticketCount {
+  color: #1e40af;
+  font-weight: bold;
 }

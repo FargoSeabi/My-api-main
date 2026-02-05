@@ -1,47 +1,99 @@
-const API_URL = "http://localhost:3000/users";
+const API_URL = "http://localhost:3000/tickets";
 
-const form = document.getElementById("userForm");
-const nameInput = document.getElementById("name");
-const emailInput = document.getElementById("email");
-const userList = document.getElementById("userList");
+const form = document.getElementById("ticketForm");
+const customerName = document.getElementById("customerName");
+const ticketTitle = document.getElementById("ticketTitle");
+const description = document.getElementById("description");
+const priority = document.getElementById("priority");
+const ticketList = document.getElementById("ticketList");
+const ticketCount = document.getElementById("ticketCount");
 
-// FETCH USERS (GET)
-async function fetchUsers() {
-  const response = await fetch(API_URL);
-  const users = await response.json();
+async function fetchTickets() {
+  try {
+    const response = await fetch(API_URL);
+    if (!response.ok) throw new Error("Failed to fetch tickets");
+    const tickets = await response.json();
 
-  userList.innerHTML = "";
+    ticketList.innerHTML = "";
+    const activeTickets = tickets.filter(t => t.status !== "Resolved");
 
-  users.forEach(user => {
-    const li = document.createElement("li");
-    li.textContent = `${user.name} - ${user.email}`;
-    userList.appendChild(li);
-  });
+    ticketCount.textContent = activeTickets.length;
+
+    activeTickets.forEach(ticket => {
+      const li = document.createElement("li");
+      li.className = `priority-${ticket.priority.toLowerCase()}`;
+
+      const date = new Date(ticket.created_at).toLocaleString();
+
+      li.innerHTML = `
+        <strong>${ticket.title}</strong>
+        <div>Customer: ${ticket.customer}</div>
+        <div>${ticket.description ? ticket.description.substring(0, 120) + (ticket.description.length > 120 ? '...' : '') : ''}</div>
+        <div class="ticket-meta">
+          <span>Priority: ${ticket.priority}</span>
+          <span>Created: ${date}</span>
+        </div>
+        <span class="status status-${ticket.status.toLowerCase().replace(' ', '-')}">
+          ${ticket.status}
+        </span>
+      `;
+
+      // Click to cycle status
+      li.addEventListener("click", async () => {
+        const statuses = ["Open", "In Progress", "Resolved"];
+        let current = statuses.indexOf(ticket.status);
+        let nextStatus = statuses[(current + 1) % statuses.length];
+
+        if (nextStatus === "Resolved" && !confirm("Mark ticket as Resolved?")) return;
+
+        try {
+          const res = await fetch(`${API_URL}/${ticket.id}`, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ status: nextStatus })
+          });
+
+          if (!res.ok) throw new Error("Failed to update status");
+          fetchTickets(); // refresh
+        } catch (err) {
+          alert("Error updating ticket: " + err.message);
+        }
+      });
+
+      ticketList.appendChild(li);
+    });
+  } catch (err) {
+    console.error(err);
+    ticketList.innerHTML = "<li>Error loading tickets</li>";
+  }
 }
 
-// ADD USER (POST)
+// Create new ticket
 form.addEventListener("submit", async (e) => {
   e.preventDefault();
 
-  const name = nameInput.value;
-  const email = emailInput.value;
+  const newTicket = {
+    customer: customerName.value.trim(),
+    title: ticketTitle.value.trim(),
+    description: description.value.trim(),
+    priority: priority.value
+  };
 
-  const response = await fetch(API_URL, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify({ name, email })
-  });
+  try {
+    const response = await fetch(API_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(newTicket)
+    });
 
-  if (response.ok) {
-    nameInput.value = "";
-    emailInput.value = "";
-    fetchUsers(); // refresh list
-  } else {
-    alert("Failed to add user");
+    if (!response.ok) throw new Error("Failed to create ticket");
+
+    form.reset();
+    fetchTickets();
+  } catch (err) {
+    alert("Error creating ticket: " + err.message);
   }
 });
 
-// Load users on page load
-fetchUsers();
+// Load tickets when page opens
+fetchTickets();

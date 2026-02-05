@@ -3,20 +3,36 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>User Management Page</title>
+    <title>Tech Support Dashboard</title>
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <h1>User Registration </h1>
+    <header>
+      <h1>Technical Support Dashboard</h1>
+      <p class="subtitle">Manage customer support tickets</p>
+    </header>
 
-    <form id="userForm">
-      <input type="text" id="name" placeholder="Enter name" required />
-      <input type="email" id="email" placeholder="Enter email" required />
-      <button type="submit">Submit</button>
-    </form>
+    <section class="ticket-form-section">
+      <h2>Create New Ticket</h2>
+      <form id="ticketForm">
+        <input type="text" id="customerName" placeholder="Customer Name" required />
+        <input type="text" id="ticketTitle" placeholder="Issue / Ticket Subject" required />
+        <textarea id="description" placeholder="Describe the problem..." rows="3"></textarea>
+        <select id="priority" required>
+          <option value="" disabled selected>Priority</option>
+          <option value="Low">Low</option>
+          <option value="Medium">Medium</option>
+          <option value="High">High</option>
+          <option value="Urgent">Urgent</option>
+        </select>
+        <button type="submit">Submit Ticket</button>
+      </form>
+    </section>
 
-    <h2>User</h2>
-    <ul id="userList"></ul>
+    <section class="tickets-section">
+      <h2>Active Tickets (<span id="ticketCount">0</span>)</h2>
+      <ul id="ticketList"></ul>
+    </section>
 
     <script src="script.js"></script>
   </body>
