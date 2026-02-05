@@ -1,6 +1,12 @@
 # My-api
 A simple API built with Node and Express
 # My API
+#Preview
+## 📸 Preview
+
+![tech Preview](tech-preview.png)
+
+
 
 A simple Node.js API project.
 
