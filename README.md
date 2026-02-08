@@ -33,6 +33,9 @@ It connects to a database and serves JSON responses through RESTful endpoints.
 1. Clone the repository:
 2. cd My-api
 3. npm install
+
+## Database
+
 Create a .env file and add your configuration (if needed):
 DB_HOST=your_host
 DB_USER=your_user
