@@ -1,1 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Technical Support Dashboard 2.0</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <header>
+      <h1>Technical Support Dashboard</h1>
+      <p class="subtitle">Customer Support tickets</p>
+    </header>
 
+    <section class="ticket-form-section">
+      <h2>New Ticket</h2>
+      <form id="ticketForm">
+        <input type="text" id="customerName" placeholder="Customer Name" required />
+        <input type="text" id="ticketTitle" placeholder="Issue / Ticket Subject" required />
+        <textarea id="description" placeholder="Describe the problem..." rows="3"></textarea>
+        <select id="priority" required>
+          <option value="" disabled selected>Priority</option>
+          <option value="Low">Low</option>
+          <option value="Medium">Medium</option>
+          <option value="High">High</option>
+      
+        </select>
+        <button type="submit">Submit Ticket</button>
+      </form>
+    </section>
+
+    <section class="tickets-section">
+      <h2>Active Tickets (<span id="ticketCount">0</span>)</h2>
+      <ul id="ticketList"></ul>
+    </section>
+
+    <script src="script.js"></script>
+  </body>
+</html>
+    
